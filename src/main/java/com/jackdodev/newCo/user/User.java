@@ -33,11 +33,23 @@ public class User {
         return this.firstName;
     }
 
+    private void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
     public String getLastName() {
         return this.lastName;
     }
 
+    private void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
     public LocalDate getDateOfBirth() {
         return this.dateOfBirth;
+    }
+
+    private void setDateOfBirth(LocalDate dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
     }
 }
