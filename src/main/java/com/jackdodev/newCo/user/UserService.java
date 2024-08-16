@@ -4,6 +4,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -13,21 +14,23 @@ public class UserService {
     private UserRepository userRepository;
 
     @Transactional
-    public User createUser(UserDto userDto) {
-        User user = new User(userDto.firstName, userDto.lastName, userDto.dateOfBirth);
-        userRepository.save(user);
-        return null;
+    public User createUser(User user) {
+        return userRepository.save(user);
     }
 
     @Transactional
-    public User getUserById(long id) {
-        return null;
+    public User getUserById(Long id) {
+        return userRepository.findById(id).orElse(null);
     }
 
     public List<User> getAllUsers() {
-        Iterable<User> allUsers = userRepository.findAll();
-        allUsers.forEach(user -> System.out.println(user.getFirstName()));
+        List<User> users = new ArrayList<>();
+        userRepository.findAll().forEach(users::add);
 
-        return null;
+        return users;
+    }
+
+    public void deleteUser(Long id) {
+        userRepository.deleteById(id);
     }
 }
