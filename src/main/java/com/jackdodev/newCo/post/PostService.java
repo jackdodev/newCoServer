@@ -19,17 +19,14 @@ public class PostService {
 
     @Transactional
     public Post getPostById(Long userId, Long postId) {
-        return postRepository.findById(postId).orElse(null);
+        return postRepository.findPostById(userId, postId);
     }
 
-    public List<Post> getAllPosts() {
-        List<Post> posts = new ArrayList<>();
-        postRepository.findAll().forEach(posts::add);
-
-        return posts;
+    public List<Post> getAllPostsByUser(Long userId) {
+        return new ArrayList<>(postRepository.findByUserId(userId));
     }
 
     public void deletePost(Long userId, Long postId) {
-        postRepository.deleteById(postId);
+        postRepository.deleteById(userId, postId);
     }
 }

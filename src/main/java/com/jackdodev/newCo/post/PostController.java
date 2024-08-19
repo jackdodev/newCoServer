@@ -18,7 +18,7 @@ public class PostController {
 
     @GetMapping
     public List<Post> getAllPost(@RequestHeader(value = "user-id") Long userId) {
-        return postService.getAllPosts();
+        return postService.getAllPostsByUser(userId);
     }
 
     @PostMapping
