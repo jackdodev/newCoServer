@@ -12,6 +12,6 @@ public interface PostRepository extends JpaRepository<Post, Long> {
     @Query("SELECT p from posts p WHERE p.id = :postId AND p.user.id = :userId")
     Post findPostById(@Param("userId") Long userId, @Param("postId") Long postId);
 
-    @Query(value = "DELETE FROM post p WHERE id = :postId AND p.user.id = :userId")
+    @Query(value = "DELETE FROM posts p WHERE id = :postId AND p.user.id = :userId")
     void deleteById(@Param("userId") Long userId, @Param("postId") Long postId);
 }
