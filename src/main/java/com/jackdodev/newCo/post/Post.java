@@ -20,6 +20,7 @@ public class Post {
 
     private LocalDate lastModified;
 
+    @ManyToOne
     private User author;
 
     public Long getId() {
