@@ -35,3 +35,10 @@ out/
 
 ### VS Code ###
 .vscode/
+
+### Projects
+gradle/
+gradlew
+gradlew.bat
+keystore.p12
+scripts
