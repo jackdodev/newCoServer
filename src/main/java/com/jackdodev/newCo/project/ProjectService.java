@@ -4,8 +4,8 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class ProjectService {
@@ -18,15 +18,15 @@ public class ProjectService {
     }
 
     @Transactional
-    public Project getProjectById(Long userId, Long projectId) {
-        return projectRepository.findProjectById(userId, projectId);
+    public Project getProjectById(UUID authorId, UUID projectId) {
+        return projectRepository.findByIdAndAuthorId(authorId, projectId);
     }
 
-    public List<Project> getAllProjectsByUser(Long userId) {
-        return new ArrayList<>(projectRepository.findByUserId(userId));
+    public List<Project> getAllProjectsByAuthor(UUID authorId) {
+        return projectRepository.findByAuthorId(authorId);
     }
 
-    public void deleteProject(Long userId, Long projectId) {
-        projectRepository.deleteById(userId, projectId);
+    public void deleteProject(UUID authorId, UUID projectId) {
+        projectRepository.deleteByAuthorIdAndId(authorId, projectId);
     }
 }

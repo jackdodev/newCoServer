@@ -2,16 +2,16 @@ package com.jackdodev.newCo.post;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
-public interface PostRepository extends JpaRepository<Post, Long> {
-    List<Post> findByUserId(Long userId);
+public interface PostRepository extends JpaRepository<Post, UUID> {
+    List<Post> findByAuthorId(UUID authorId);
 
-    @Query("SELECT p from posts p WHERE p.id = :postId AND p.arthur.id = :userId")
-    Post findPostById(@Param("userId") Long userId, @Param("postId") Long postId);
+    @Query("SELECT p from posts p WHERE p.authorId = ?1 AND p.id = ?2")
+    Optional<Post> findPostByAuthorIdAndId(UUID authorId, UUID postId);
 
-    @Query(value = "DELETE FROM posts p WHERE id = :postId AND p.arthur.id = :userId")
-    void deleteById(@Param("userId") Long userId, @Param("postId") Long postId);
+    void deleteByAuthorIdAndId(UUID postId, UUID author_id);
 }

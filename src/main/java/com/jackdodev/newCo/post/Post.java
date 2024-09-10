@@ -1,16 +1,15 @@
 package com.jackdodev.newCo.post;
 
-import com.jackdodev.newCo.user.User;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 @Entity
 @Table(name = "posts")
 public class Post {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private UUID id;
 
     private String subject;
 
@@ -20,54 +19,30 @@ public class Post {
 
     private LocalDate lastModified;
 
-    @ManyToOne
-    private User author;
+    private UUID authorId;
 
-    public Long getId() {
+    public Post(UUID id, String subject, String contents) {
+        this.id = id;
+        this.subject = subject;
+        this.contents = contents;
+        this.createdAt = LocalDate.now();
+        this.lastModified = LocalDate.now();
+    }
+
+    public static Post convertPostFromPostDTO(PostDTO postDto) {
+        UUID id = UUID.randomUUID();
+        return new Post(id, postDto.subject, postDto.contents);
+    }
+
+    public UUID getId() {
         return this.id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public UUID getAuthorId() {
+        return authorId;
     }
 
-    public String getSubject() {
-        return subject;
-    }
-
-    public void setSubject(String subject) {
-        this.subject = subject;
-    }
-
-    public String getContents() {
-        return contents;
-    }
-
-    public void setContents(String contents) {
-        this.contents = contents;
-    }
-
-    public LocalDate getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(LocalDate createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public LocalDate getLastModified() {
-        return lastModified;
-    }
-
-    public void setLastModified(LocalDate lastModified) {
-        this.lastModified = lastModified;
-    }
-
-    public User getAuthor() {
-        return author;
-    }
-
-    public void setAuthor(User author) {
-        this.author = author;
+    public void setAuthorId(UUID authorId) {
+        this.authorId = authorId;
     }
 }

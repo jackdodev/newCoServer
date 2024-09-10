@@ -6,6 +6,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class PostService {
@@ -18,15 +20,15 @@ public class PostService {
     }
 
     @Transactional
-    public Post getPostById(Long userId, Long postId) {
-        return postRepository.findPostById(userId, postId);
+    public Optional<Post> getPostById(UUID authorId, UUID postId) {
+        return postRepository.findPostByAuthorIdAndId(authorId, postId);
     }
 
-    public List<Post> getAllPostsByUser(Long userId) {
-        return new ArrayList<>(postRepository.findByUserId(userId));
+    public List<Post> getAllPostsByAuthor(UUID authorId) {
+        return postRepository.findByAuthorId(authorId);
     }
 
-    public void deletePost(Long userId, Long postId) {
-        postRepository.deleteById(userId, postId);
+    public void deletePost(UUID authorId, UUID postId) {
+        postRepository.deleteByAuthorIdAndId(authorId, postId);
     }
 }

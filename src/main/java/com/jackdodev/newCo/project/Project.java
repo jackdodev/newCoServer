@@ -1,16 +1,16 @@
 package com.jackdodev.newCo.project;
 
-import com.jackdodev.newCo.user.User;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 @Entity
 @Table(name = "projects")
 public class Project {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private UUID id;
 
     private String subject;
 
@@ -22,62 +22,25 @@ public class Project {
 
     private LocalDate lastModified;
 
-    @ManyToOne
-    private User author;
+    private UUID authorId;
 
-    public Long getId() {
-        return this.id;
-    }
-
-    public void setId(Long id) {
+    public Project(UUID id, String subject, String category, String content) {
         this.id = id;
-    }
-
-    public String getSubject() {
-        return subject;
-    }
-
-    public void setSubject(String subject) {
         this.subject = subject;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
+        this.category = category;
         this.content = content;
     }
 
-    public String getCategory() {
-        return category;
+    public static Project convertProjectFromProjectDTO(ProjectDTO projectDto) {
+        UUID id = UUID.randomUUID();
+        return new Project(id, projectDto.subject, projectDto.category, projectDto.content);
     }
 
-    public void setCategory(String category) {
-        this.category = category;
+    public void setId(UUID id) {
+        this.id = id;
     }
 
-    public LocalDate getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(LocalDate createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public LocalDate getLastModified() {
-        return lastModified;
-    }
-
-    public void setLastModified(LocalDate lastModified) {
-        this.lastModified = lastModified;
-    }
-
-    public User getAuthor() {
-        return author;
-    }
-
-    public void setAuthor(User author) {
-        this.author = author;
+    public void setAuthorId(UUID authorId) {
+        this.authorId = authorId;
     }
 }

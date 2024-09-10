@@ -1,17 +1,14 @@
 package com.jackdodev.newCo.project;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.UUID;
 
 public interface ProjectRepository extends JpaRepository<Project, Long> {
-    List<Project> findByUserId(Long userId);
 
-    @Query("Select p from projects p WHERE p.id = :projectId AND p.arthur.id = :userId")
-    Project findProjectById(@Param("userId") Long userId, @Param("projectId") Long projectId);
+    List<Project> findByAuthorId(UUID authorId);
+    Project findByIdAndAuthorId(UUID projectId, UUID userId);
 
-    @Query("DELETE FROM projects p where id = :projectId AND p.arthur.id = :projectId")
-    void deleteById(@Param("userId") Long userId, @Param("projectId") Long projectId);
+    void deleteByAuthorIdAndId(UUID userId, UUID projectId);
 }
