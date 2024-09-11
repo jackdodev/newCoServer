@@ -19,7 +19,9 @@ public class PostController {
 
     @GetMapping("/{id}")
     public Optional<Post> getPostByIdAndAuthorId(@RequestHeader(value = "authorId") String authorId, @PathVariable(value = "id") String postId) {
-        return postService.getPostById(UUID.fromString(authorId), UUID.fromString(postId));
+        Optional<Post> opPost = postService.getPostById(UUID.fromString(authorId), UUID.fromString(postId));
+
+        return opPost;
     }
 
     @GetMapping

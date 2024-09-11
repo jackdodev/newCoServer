@@ -21,6 +21,7 @@ public class Post {
 
     private UUID authorId;
 
+    public Post() {}
     public Post(UUID id, String subject, String contents) {
         this.id = id;
         this.subject = subject;
@@ -44,5 +45,13 @@ public class Post {
 
     public void setAuthorId(UUID authorId) {
         this.authorId = authorId;
+    }
+
+    public String getContents() {
+        return this.contents;
+    }
+
+    public String getSubject() {
+        return this.subject;
     }
 }
