@@ -11,10 +11,10 @@ import java.util.UUID;
 public interface PostRepository extends JpaRepository<Post, UUID> {
     List<Post> findByAuthorId(UUID authorId);
 
-    Optional<Post> findPostByAuthorIdAndId(UUID authorId, UUID id);
+//    Optional<Post> findPostByAuthorIdAndId(UUID authorId, UUID id);
 
-//    @Query("SELECT p from posts p WHERE p.authorId = :authorId AND p.id = :id")
-//    Optional<Post> findPostByAuthorIdAndId(@Param("authorId") UUID authorId, @Param("id") UUID postId);
+    @Query("SELECT p FROM Post p WHERE p.authorId = :authorId AND p.id = :id")
+    Optional<Post> findPostByAuthorIdAndId(@Param("authorId") UUID authorId, @Param("id") UUID id);
 
     void deleteByAuthorIdAndId(UUID postId, UUID author_id);
 }

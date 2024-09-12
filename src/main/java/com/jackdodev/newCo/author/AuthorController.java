@@ -19,11 +19,6 @@ public class AuthorController {
         return authorService.getAuthorById(UUID.fromString(id));
     }
 
-    @GetMapping
-    public List<Author> getAllAuthors() {
-        return authorService.getAllAuthors();
-    }
-
     @PostMapping
     public Author createAuthor(@RequestBody AuthorDTO authorDto) {
         Author author = Author.convertAuthorFromAuthorDTO(authorDto);
