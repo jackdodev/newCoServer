@@ -2,7 +2,7 @@ package com.jackdodev.newCo.post;
 
 import jakarta.persistence.*;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
@@ -15,24 +15,29 @@ public class Post {
 
     private String contents;
 
-    private LocalDate createdAt;
+    private LocalDateTime createdAt;
 
-    private LocalDate lastModified;
+    private LocalDateTime lastModified;
 
     private UUID authorId;
 
     public Post() {}
-    public Post(UUID id, String subject, String contents) {
+
+    public Post(UUID id, String subject, String contents, LocalDateTime createdAt, LocalDateTime lastModified) {
         this.id = id;
         this.subject = subject;
         this.contents = contents;
-        this.createdAt = LocalDate.now();
-        this.lastModified = LocalDate.now();
+        this.createdAt = createdAt;
+        this.lastModified = lastModified;
     }
 
     public static Post convertPostFromPostDTO(PostDTO postDto) {
         UUID id = UUID.randomUUID();
-        return new Post(id, postDto.subject, postDto.contents);
+        return new Post(id, postDto.subject, postDto.contents, LocalDateTime.now(), LocalDateTime.now());
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return this.createdAt;
     }
 
     public UUID getId() {
