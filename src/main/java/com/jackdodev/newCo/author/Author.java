@@ -34,4 +34,12 @@ public class Author {
     public UUID getId() {
         return this.id;
     }
+
+    public String getFirstName() {
+        return this.firstName;
+    }
+
+    public String getLastName() {
+        return this.lastName;
+    }
 }

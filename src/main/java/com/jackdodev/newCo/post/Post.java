@@ -40,6 +40,10 @@ public class Post {
         return this.createdAt;
     }
 
+    public LocalDateTime getLastModified() {
+        return this.lastModified;
+    }
+
     public UUID getId() {
         return this.id;
     }

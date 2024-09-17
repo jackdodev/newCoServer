@@ -1,11 +1,14 @@
 package com.jackdodev.newCo.post;
 
 import com.jackdodev.newCo.author.Author;
+import com.jackdodev.newCo.author.AuthorDTO;
 import com.jackdodev.newCo.author.AuthorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.Array;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -20,27 +23,34 @@ public class PostController {
     private AuthorService authorService;
 
     @GetMapping("/{id}")
-    public Optional<Post> getPostByIdAndAuthorId(
+    public Optional<PostDTO> getPostByIdAndAuthorId(
             @RequestHeader(value = "authorId") String authorId,
             @PathVariable(value = "id") String postId) {
         Optional<Post> opPost = postService.getPostById(UUID.fromString(authorId), UUID.fromString(postId));
+        opPost.ifPresent(post -> {
+            Optional<Author> authorOp = authorService.getAuthorById(post.getAuthorId());
+            authorOp.ifPresent(author -> PostDTO.convertPostDTOFromPost(post, AuthorDTO.convertAuthorDTOFrommAuthor(author)));
+        });
 
-        return opPost;
+        return Optional.empty();
     }
 
     @GetMapping
-    public Optional<List<Post>> getAllPost(@RequestHeader(value = "authorId") String authorId) {
+    public Optional<List<PostDTO>> getAllPost(@RequestHeader(value = "authorId") String authorId) {
+        List<PostDTO> lPostDto = new ArrayList<>();
         Optional<List<Post>> opPosts = postService.getAllPostsByAuthor(UUID.fromString(authorId));
         opPosts.ifPresent(posts -> {
             posts.forEach(post -> {
                 Optional<Author> opAuthor = authorService.getAuthorById(post.getAuthorId());
                 opAuthor.ifPresent(author -> {
                     System.out.println(post.getSubject() + ", " + post.getContents() + ", by " +  author.getId());
+                    AuthorDTO authorDto = AuthorDTO.convertAuthorDTOFrommAuthor(author);
+                    lPostDto.add(PostDTO.convertPostDTOFromPost(post, authorDto));
                 });
             });
         });
 
-        return opPosts;
+        return Optional.of(lPostDto);
     }
 
     @PostMapping
