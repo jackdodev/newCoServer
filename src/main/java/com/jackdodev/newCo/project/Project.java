@@ -2,7 +2,7 @@ package com.jackdodev.newCo.project;
 
 import jakarta.persistence.*;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
@@ -18,9 +18,9 @@ public class Project {
 
     private String content;
 
-    private LocalDate createdAt;
+    private LocalDateTime createdAt;
 
-    private LocalDate lastModified;
+    private LocalDateTime lastModified;
 
     private UUID authorId;
 
@@ -42,5 +42,25 @@ public class Project {
 
     public void setAuthorId(UUID authorId) {
         this.authorId = authorId;
+    }
+
+    public String getSubject() {
+        return this.subject;
+    }
+
+    public String getContent() {
+        return this.content;
+    }
+
+    public String getCategory() {
+        return this.category;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return this.createdAt;
+    }
+
+    public LocalDateTime getLastModified() {
+        return this.lastModified;
     }
 }

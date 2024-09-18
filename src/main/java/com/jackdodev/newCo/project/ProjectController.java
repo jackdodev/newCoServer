@@ -23,9 +23,9 @@ public class ProjectController {
     }
 
     @PostMapping
-    public Project createProject(@RequestBody ProjectDTO projectDto) {
+    public void createProject(@RequestBody ProjectDTO projectDto) {
         Project project = Project.convertProjectFromProjectDTO(projectDto);
-        return projectService.createProject(project);
+        projectService.saveProject(project);
     }
 
     @DeleteMapping("/{id}")

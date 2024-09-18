@@ -13,9 +13,8 @@ public class PostService {
     @Autowired
     private PostRepository postRepository;
 
-    @Transactional
-    public Post createPost(Post post) {
-        return postRepository.save(post);
+    public void savePost(Post post) {
+        postRepository.save(post);
     }
 
     @Transactional

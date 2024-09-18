@@ -54,25 +54,22 @@ public class PostController {
     }
 
     @PostMapping
-    public Post createPost(@RequestHeader(value = "authorId") String authorId, @RequestBody PostDTO postDto) {
+    public void createPost(@RequestHeader(value = "authorId") UUID authorId, @RequestBody PostDTO postDto) {
         Post post = Post.convertPostFromPostDTO(postDto);
-        post.setAuthorId(UUID.fromString(authorId));
+        post.setAuthorId(authorId);
 
-        return postService.createPost(post);
+        postService.savePost(post);
     }
 
     @PutMapping
-    public Optional<Post> updatePost(@RequestHeader(value = "authorId") String authorId, @PathVariable String postId, @RequestBody PostDTO postDto) {
-        Optional<Post> opPost = getPostByIdAndAuthorId(authorId, postId);
-        if (opPost.isPresent()) {
-            Post post = opPost.get();
-            post = new Post(UUID.fromString(postId), postDto.subject, postDto.contents, post.getCreatedAt(), LocalDateTime.now());
-            post.setAuthorId(UUID.fromString(authorId));
-
-            return Optional.of(postService.createPost(post));
-        }
-
-        return Optional.empty();
+    public void updatePost(@RequestHeader(value = "authorId") UUID authorId, @PathVariable UUID postId, @RequestBody PostDTO postDto) {
+        Optional<Post> opPost = postService.getPostById(authorId, postId);
+        opPost.ifPresent(post -> {
+            if (post.getAuthorId() == authorId) {
+                Post updatedPost = new Post(postId, postDto.subject, postDto.contents, post.getCreatedAt(), LocalDateTime.now());
+                postService.savePost(updatedPost);
+            }
+        });
     }
 
     @DeleteMapping("/{id}")

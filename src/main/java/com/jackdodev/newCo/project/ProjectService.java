@@ -13,8 +13,8 @@ public class ProjectService {
     private ProjectRepository projectRepository;
 
     @Transactional
-    public Project createProject(Project project) {
-        return projectRepository.save(project);
+    public void saveProject(Project project) {
+        projectRepository.save(project);
     }
 
     @Transactional
