@@ -21,7 +21,7 @@ public class Post {
 
     private UUID authorId;
 
-    public Post() {}
+    private Post() {}
 
     public Post(UUID id, String subject, String contents, LocalDateTime createdAt, LocalDateTime lastModified) {
         this.id = id;
@@ -31,9 +31,15 @@ public class Post {
         this.lastModified = lastModified;
     }
 
+    public Post(String subject, String contents, LocalDateTime createdAt, LocalDateTime lastModified) {
+        this.subject = subject;
+        this.contents = contents;
+        this.createdAt = createdAt;
+        this.lastModified = lastModified;
+    }
+
     public static Post convertPostFromPostDTO(PostDTO postDto) {
-        UUID id = UUID.randomUUID();
-        return new Post(id, postDto.subject, postDto.contents, LocalDateTime.now(), LocalDateTime.now());
+        return new Post(postDto.subject, postDto.contents, LocalDateTime.now(), LocalDateTime.now());
     }
 
     public LocalDateTime getCreatedAt() {
@@ -42,6 +48,10 @@ public class Post {
 
     public LocalDateTime getLastModified() {
         return this.lastModified;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
     }
 
     public UUID getId() {

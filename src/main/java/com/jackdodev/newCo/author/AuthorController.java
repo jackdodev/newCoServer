@@ -22,6 +22,8 @@ public class AuthorController {
     @PostMapping
     public Author createAuthor(@RequestBody AuthorDTO authorDto) {
         Author author = Author.convertAuthorFromAuthorDTO(authorDto);
+        author.setId(UUID.randomUUID());
+
         return authorService.createAuthor(author);
     }
 
@@ -30,7 +32,7 @@ public class AuthorController {
         Optional<Author> opAuthor = getAuthorById(id);
         if (opAuthor.isPresent()) {
             Author author = opAuthor.get();
-            author = new Author(author.getId(), authorDto.firstName, authorDto.lastName, authorDto.dateOfBirth);
+            author = new Author(author.getId(), authorDto.firstName, authorDto.lastName);
 
             return Optional.of(authorService.createAuthor(author));
         }

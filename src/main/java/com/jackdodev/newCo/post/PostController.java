@@ -6,7 +6,6 @@ import com.jackdodev.newCo.author.AuthorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.Array;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -56,6 +55,7 @@ public class PostController {
     @PostMapping
     public void createPost(@RequestHeader(value = "authorId") UUID authorId, @RequestBody PostDTO postDto) {
         Post post = Post.convertPostFromPostDTO(postDto);
+        post.setId(UUID.randomUUID());
         post.setAuthorId(authorId);
 
         postService.savePost(post);

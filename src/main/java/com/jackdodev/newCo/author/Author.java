@@ -15,20 +15,25 @@ public class Author {
 
     private String lastName;
 
-    private LocalDate dateOfBirth;
+    private Author() {}
 
-    public Author() {}
-
-    public Author(UUID id, String firstName, String lastName, LocalDate dateOfBirth) {
+    public Author(UUID id, String firstName, String lastName) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.dateOfBirth = dateOfBirth;
+    }
+
+    public Author(String firstName, String lastName) {
+        this.firstName = firstName;
+        this.lastName = lastName;
     }
 
     public static Author convertAuthorFromAuthorDTO(AuthorDTO dto) {
-        UUID id = UUID.randomUUID();
-        return new Author(id, dto.firstName, dto.lastName, dto.dateOfBirth);
+        return new Author(dto.firstName, dto.lastName);
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
     }
 
     public UUID getId() {

@@ -1,11 +1,8 @@
 package com.jackdodev.newCo.author;
 
-import java.time.LocalDate;
-
 public class AuthorDTO {
     public String firstName;
     public String lastName;
-    public LocalDate dateOfBirth;
 
     public AuthorDTO(String firstName, String lastName) {
         this.firstName = firstName;
