@@ -26,10 +26,16 @@ public class PostController {
             @RequestHeader(value = "authorId") String authorId,
             @PathVariable(value = "id") String postId) {
         Optional<Post> opPost = postService.getPostById(UUID.fromString(authorId), UUID.fromString(postId));
-        opPost.ifPresent(post -> {
-            Optional<Author> authorOp = authorService.getAuthorById(post.getAuthorId());
-            authorOp.ifPresent(author -> PostDTO.convertPostDTOFromPost(post, AuthorDTO.convertAuthorDTOFrommAuthor(author)));
-        });
+        if (opPost.isPresent()) {
+            Post post = opPost.get();
+            Optional<Author> opAuthor = authorService.getAuthorById(post.getAuthorId());
+            AuthorDTO authorDto = null;
+            if (opAuthor.isPresent()) {
+                authorDto = AuthorDTO.convertAuthorDTOFrommAuthor(opAuthor.get());
+            }
+
+            return Optional.of(PostDTO.convertPostDTOFromPost(post, authorDto));
+        }
 
         return Optional.empty();
     }

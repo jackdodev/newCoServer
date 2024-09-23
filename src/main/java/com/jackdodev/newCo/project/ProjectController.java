@@ -1,9 +1,11 @@
 package com.jackdodev.newCo.project;
 
+import com.jackdodev.newCo.author.AuthorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @RestController
@@ -12,9 +14,14 @@ public class ProjectController {
     @Autowired
     private ProjectService projectService;
 
+    @Autowired
+    private AuthorService authorService;
+
     @GetMapping("/{id}")
-    public Project getProjectByProjectIdAndAuthorId(@RequestHeader(value="authorId") String authorId, @PathVariable String projectId) {
-        return projectService.getProjectById(UUID.fromString(authorId), UUID.fromString(projectId));
+    public Optional<ProjectDTO> getProjectByProjectIdAndAuthorId(@RequestHeader(value="authorId") String authorId, @PathVariable String projectId) {
+        authorService.getAuthorById(UUID.fromString(authorId));
+        Project project = projectService.getProjectById(UUID.fromString(authorId), UUID.fromString(projectId));
+        ProjectDTO.convertProjectDTOFromProject(project);
     }
 
     @GetMapping
@@ -25,6 +32,7 @@ public class ProjectController {
     @PostMapping
     public void createProject(@RequestBody ProjectDTO projectDto) {
         Project project = Project.convertProjectFromProjectDTO(projectDto);
+        project.setId(UUID.randomUUID());
         projectService.saveProject(project);
     }
 

@@ -24,6 +24,11 @@ public class Project {
 
     private UUID authorId;
 
+    public Project(String subject, String category, String content) {
+        this.subject = subject;
+        this.category = category;
+        this.content = content;
+    }
     public Project(UUID id, String subject, String category, String content) {
         this.id = id;
         this.subject = subject;
@@ -32,8 +37,7 @@ public class Project {
     }
 
     public static Project convertProjectFromProjectDTO(ProjectDTO projectDto) {
-        UUID id = UUID.randomUUID();
-        return new Project(id, projectDto.subject, projectDto.category, projectDto.content);
+        return new Project(projectDto.subject, projectDto.category, projectDto.content);
     }
 
     public void setId(UUID id) {

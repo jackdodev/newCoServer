@@ -18,7 +18,7 @@ public class ProjectDTO {
        this.content = content;
     }
 
-    public ProjectDTO convertProjectDTOFromProject(Project project, AuthorDTO authorDto) {
+    public static ProjectDTO convertProjectDTOFromProject(Project project, AuthorDTO authorDto) {
         ProjectDTO projectDto = new ProjectDTO(project.getSubject(), project.getCategory(), project.getContent());
         projectDto.createdAt = project.getCreatedAt();
         projectDto.lastModified = project.getLastModified();

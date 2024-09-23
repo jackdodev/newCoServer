@@ -15,8 +15,11 @@ public class AuthorController {
     private AuthorService authorService;
 
     @GetMapping("/{id}")
-    public Optional<Author> getAuthorById(@PathVariable String id) {
-        return authorService.getAuthorById(UUID.fromString(id));
+    public Optional<AuthorDTO> getAuthorById(@PathVariable String id) {
+        Optional<Author> opAuthor =  authorService.getAuthorById(UUID.fromString(id));
+        return Optional.of(AuthorDTO.convertAuthorDTOFrommAuthor(author));
+        });
+         return Optional.empty();
     }
 
     @PostMapping
