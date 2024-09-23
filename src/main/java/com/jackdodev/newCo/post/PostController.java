@@ -44,14 +44,15 @@ public class PostController {
     public Optional<List<PostDTO>> getAllPost(@RequestHeader(value = "authorId") String authorId) {
         List<PostDTO> lPostDto = new ArrayList<>();
         Optional<List<Post>> opPosts = postService.getAllPostsByAuthor(UUID.fromString(authorId));
+        Optional<Author> opAuthor = authorService.getAuthorById(UUID.fromString(authorId));
         opPosts.ifPresent(posts -> {
             posts.forEach(post -> {
-                Optional<Author> opAuthor = authorService.getAuthorById(post.getAuthorId());
-                opAuthor.ifPresent(author -> {
-                    System.out.println(post.getSubject() + ", " + post.getContents() + ", by " +  author.getId());
-                    AuthorDTO authorDto = AuthorDTO.convertAuthorDTOFrommAuthor(author);
-                    lPostDto.add(PostDTO.convertPostDTOFromPost(post, authorDto));
-                });
+                AuthorDTO authorDto = null;
+                if (opAuthor.isPresent()) {
+                    authorDto = AuthorDTO.convertAuthorDTOFrommAuthor(opAuthor.get());
+                }
+
+                lPostDto.add(PostDTO.convertPostDTOFromPost(post, authorDto));
             });
         });
 
