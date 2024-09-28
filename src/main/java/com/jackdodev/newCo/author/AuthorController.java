@@ -9,6 +9,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/author")
+@CrossOrigin(origins = "http://localhost:3000")
 public class AuthorController {
 
     @Autowired
