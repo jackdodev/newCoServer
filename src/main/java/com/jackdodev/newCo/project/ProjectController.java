@@ -1,5 +1,7 @@
 package com.jackdodev.newCo.project;
 
+import com.jackdodev.newCo.author.Author;
+import com.jackdodev.newCo.author.AuthorDTO;
 import com.jackdodev.newCo.author.AuthorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -9,7 +11,8 @@ import java.util.Optional;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/projects")
+@RequestMapping("/project")
+@CrossOrigin(origins = "http://localhost:3000")
 public class ProjectController {
     @Autowired
     private ProjectService projectService;
@@ -21,7 +24,13 @@ public class ProjectController {
     public Optional<ProjectDTO> getProjectByProjectIdAndAuthorId(@RequestHeader(value="authorId") String authorId, @PathVariable String projectId) {
         authorService.getAuthorById(UUID.fromString(authorId));
         Project project = projectService.getProjectById(UUID.fromString(authorId), UUID.fromString(projectId));
-        ProjectDTO.convertProjectDTOFromProject(project);
+
+        Optional<Author> opAuthor = authorService.getAuthorById(UUID.fromString(authorId));
+        if (opAuthor.isPresent()) {
+            AuthorDTO authorDto = AuthorDTO.convertAuthorDTOFrommAuthor(opAuthor.get());
+            return Optional.of(ProjectDTO.convertProjectDTOFromProject(project, authorDto));
+        }
+        return Optional.empty();
     }
 
     @GetMapping

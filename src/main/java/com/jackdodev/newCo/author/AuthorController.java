@@ -17,9 +17,8 @@ public class AuthorController {
     @GetMapping("/{id}")
     public Optional<AuthorDTO> getAuthorById(@PathVariable String id) {
         Optional<Author> opAuthor =  authorService.getAuthorById(UUID.fromString(id));
-        return Optional.of(AuthorDTO.convertAuthorDTOFrommAuthor(author));
-        });
-         return Optional.empty();
+        return opAuthor.map(AuthorDTO::convertAuthorDTOFrommAuthor);
+
     }
 
     @PostMapping
@@ -32,7 +31,7 @@ public class AuthorController {
 
     @PutMapping("/{id}")
     public Optional<Author> updateAuthor(@PathVariable String id, @RequestBody AuthorDTO authorDto) {
-        Optional<Author> opAuthor = getAuthorById(id);
+        Optional<Author> opAuthor = authorService.getAuthorById(UUID.fromString(id));
         if (opAuthor.isPresent()) {
             Author author = opAuthor.get();
             author = new Author(author.getId(), authorDto.firstName, authorDto.lastName);
